@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# all the colors
+if [ "$TERM" == "xterm" ]; then
+    export TERM=xterm-256color
+fi
+
+# Easier navigation: .., ..., ...., ....., ~ and -
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+alias c="clear"
+alias mkdir="mkdir -pv"
+
+# nicer directory listings, all files by default - with colors all around
+alias ls='ls --color=auto -a'
+alias ll='ls --color=auto -alF'
+alias l='ls'
+alias h='history'
+alias j='jobs -l'
+
+# Always enable colored `grep` output
+# Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+alias fastping='ping -c 100 -s.2'
+alias ports='netstat -tulanp'      # show all tcp & udp ports on the server
+alias header='curl -I'             # get web server headers
+alias headerc='curl -I --compress' # for compression using gzip
+
+alias meminfo='free -m -l -t'
+alias psmem='ps auxf | sort -nr -k 4'  # get top process eating memory
+alias pscpu='ps auxf | sort -nr -k 3'  # get top process eating cpu
+alias cpuinfo='lscpu'                  # Get server cpu info
+# Get mem info for GPU (useable for Workstations mostly)
+alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
+
+alias emacs='emacsclient -t -a ""'
+
+# Delete all containers
+alias dockrm="docker rm $(docker ps -a -q)"
+# Delete all images
+alias dockrmi="docker rmi $(docker images -q)"
+
+export GOPATH=$HOME/code/go
+
+# Enable aliases to be sudo’ed
+alias sudo='sudo '
+
+# Get week number
+alias week='date +%V'
+
+# IP addresses
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+
+# Canonical hex dump; some systems have this symlinked
+command -v hd > /dev/null || alias hd="hexdump -C"
+
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+alias map="xargs -n1"
+
+# One of @janmoesen’s ProTip™s
+for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+	alias "${method}"="lwp-request -m '${method}'"
+done
+
+# toggle on / off sound
+alias forwatt="amixer set Master toggle"
+
+# Kill all the tabs in Chrome to free up memory
+# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
+alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec ${SHELL} -l"
+
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'
