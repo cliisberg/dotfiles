@@ -13,6 +13,9 @@ function doIt() {
 
   cp -r .emacs ~/emacs.config
   ln -sf ~/emacs.config/.spacemacs ~/.spacemacs
+
+  mkdir ~/.vim
+  mv ~/.vimrc ~/.vim/
 }
 
 
